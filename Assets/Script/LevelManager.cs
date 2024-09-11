@@ -19,8 +19,8 @@ public class LevelManager : MonoBehaviour
         {
             gate.InitGate(this);
         }
-        //uiManager=ServiceLocator.GetService<UIManager>();
-        //gameTimeBar = uiManager.timeBar;
+        uiManager=ServiceLocator.GetService<UIManager>();
+        gameTimeBar = uiManager.timeBar;
         if (PlayerPrefs.HasKey("Buy1"))
         {
             gameTime += 30;
@@ -28,8 +28,8 @@ public class LevelManager : MonoBehaviour
     }
     private void Update()
     {
-        //spendedTime += Time.deltaTime;
-        ////gameTimeBar.text = (gameTime - Math.Round(spendedTime)).ToString();
+        spendedTime += Time.deltaTime;
+        gameTimeBar.text = (gameTime - Math.Round(spendedTime)).ToString();
         //if (spendedTime > gameTime)
         //{
         //    LevelEnded(false);
@@ -40,6 +40,7 @@ public class LevelManager : MonoBehaviour
         reachedGates += 1;
         if (gates.Count == 0 || gates[gates.Count - 1] == gate)
         {
+
             LevelEnded(true);
         }
         gates.Remove(gate);
@@ -59,6 +60,7 @@ public class LevelManager : MonoBehaviour
                 PlayerPrefs.Save();
                 uiManager.ShowMoney();
                 Debug.Log("LevelComplete");
+
             }
             else
             {
@@ -69,6 +71,7 @@ public class LevelManager : MonoBehaviour
             reachedGates = 0;
             uiManager.FinishGame();
             Destroy(gameObject);
+            
         }
     }
 }
