@@ -15,7 +15,7 @@ public class Gate : MonoBehaviour
         if (other.tag=="Player")
         {
             Debug.Log("Gate Reached");
-            effect.SetActive(true);
+            //effect.SetActive(true);
             transform.DOScale(0.1f, 0.3f).OnComplete(DisableGate);
             GameObject.FindGameObjectWithTag("EffectSound").GetComponent<AudioSource>().Play();
 
