@@ -6,6 +6,7 @@ using System;
 public class LevelManager : MonoBehaviour
 {
     [SerializeField] private List<Gate> gates;
+    [SerializeField] private List<GameObject> cars;
     public int levelNum;
     private UIManager uiManager;
     private TMP_Text gameTimeBar;
@@ -25,6 +26,12 @@ public class LevelManager : MonoBehaviour
         {
             gameTime += 30;
         }
+        int tempCar = PlayerPrefs.GetInt("Car");
+        cars[tempCar].SetActive(true);
+    }
+    private void Start()
+    {
+        DeactivateGates();
     }
     private void Update()
     {
@@ -35,6 +42,20 @@ public class LevelManager : MonoBehaviour
         //    LevelEnded(false);
         //}
     }
+    public void DeactivateGates()
+    {
+        for (int i = 0;i < gates.Count;i++)
+        {
+            if (i==0)
+            {
+                gates[i].gameObject.SetActive(true);
+            }
+            else
+            {
+                gates[i].gameObject.SetActive(false);
+            }
+        }
+    }
     public void DisableGate(Gate gate)
     {
         reachedGates += 1;
@@ -44,7 +65,7 @@ public class LevelManager : MonoBehaviour
             LevelEnded(true);
         }
         gates.Remove(gate);
-
+        gates[reachedGates].gameObject.SetActive(true);
         //Destroy(gate.gameObject);
 
     }

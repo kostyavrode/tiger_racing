@@ -5,13 +5,26 @@ using UnityEngine;
 public class Shop : MonoBehaviour
 {
     public GameObject[] shopEntities;
+    public GameObject[] buyButtons;
+    public GameObject[] setButtons;
     public GameObject shopPanel;
-    public MeshRenderer[] planeModel;
     public Material[] materials;
     private int currentEntityNum;
+    public int cost1;
+    public int cost2;
+    public int cost3;
+    public int cost4;
     private void Awake()
     {
+        if (!PlayerPrefs.HasKey("Buy1"))
+        {
+            PlayerPrefs.SetInt("Buy1", 0);
+        }
         CheckMat();
+    }
+    private void Start()
+    {
+        this.gameObject.SetActive(false);
     }
     private void ShowEntity(int entityNum)
     {
@@ -44,20 +57,52 @@ public class Shop : MonoBehaviour
         }
 
     } 
-    public void SetColor(int colorNum)
+    public void BuyCar(int entityNum)
     {
-        if (PlayerPrefs.GetInt("Money") >= 120)
+        switch(entityNum)
         {
-            Material randomMaterial = materials[colorNum];
-            foreach (MeshRenderer mesh in planeModel)
-            {
-                mesh.material = randomMaterial;
-            }
-            PlayerPrefs.SetInt("Mat", colorNum);
-            PlayerPrefs.SetInt("Money", PlayerPrefs.GetInt("Money") - 120);
-            PlayerPrefs.Save();
-            ServiceLocator.GetService<UIManager>().ShowMoney();
+            case 0:
+                {
+                    if (PlayerPrefs.GetInt("Money") >= cost1)
+                    {
+                        PlayerPrefs.SetInt("Money", PlayerPrefs.GetInt("Money") - cost1);
+                        PlayerPrefs.SetInt("Buy1", 1);
+                    }
+                    else
+                        return;
+                }
+                break;
+            case 1:
+                {
+                    if (PlayerPrefs.GetInt("Money") >= cost2)
+                    {
+                        PlayerPrefs.SetInt("Money", PlayerPrefs.GetInt("Money") - cost2);
+                        PlayerPrefs.SetInt("Buy2", 1);
+                    }
+                    else
+                        return;
+                }
+                break;
+            case 2:
+                {
+                    if (PlayerPrefs.GetInt("Money") >= cost3)
+                    {
+                        PlayerPrefs.SetInt("Money", PlayerPrefs.GetInt("Money") - cost3);
+                        PlayerPrefs.SetInt("Buy3", 1);
+                    }
+                    else
+                        return;
+                }
+                break;
         }
+        SetCar(entityNum);
+        ServiceLocator.GetService<UIManager>().ShowMoney();
+        CheckMat();
+    }
+    public void SetCar(int entityNum)
+    {
+        PlayerPrefs.SetInt("Car", entityNum);
+        PlayerPrefs.Save();
     }
     public void BuyTime()
     {
@@ -71,35 +116,27 @@ public class Shop : MonoBehaviour
     }
     private void CheckMat()
     {
-        if (PlayerPrefs.HasKey("Mat"))
+        if (PlayerPrefs.HasKey("Buy1"))
         {
-
-        
-        Material randomMaterial = materials[PlayerPrefs.GetInt("Mat")];
-            Debug.Log("Nat" + PlayerPrefs.GetInt("Mat"));
-            foreach (MeshRenderer mesh in planeModel)
-            {
-                mesh.material = randomMaterial;
-
-            }
+            buyButtons[0].SetActive(false);
+            setButtons[0].SetActive(true);
         }
-        gameObject.SetActive(false);
-    }
-    public void GetRandomColor()
-    {
-        if (PlayerPrefs.GetInt("Money")>120)
+        if (PlayerPrefs.HasKey("Buy2"))
         {
-            int rand = Random.Range(0, materials.Length);
-            Material randomMaterial = materials[rand];
-            foreach (MeshRenderer mesh in planeModel)
-            {
-                mesh.material = randomMaterial;
-            }
-            PlayerPrefs.SetInt("Mat", rand);
-            PlayerPrefs.SetInt("Money",PlayerPrefs.GetInt("Money") - 120);
-            PlayerPrefs.Save();
-            ServiceLocator.GetService<UIManager>().ShowMoney();
+            buyButtons[1].SetActive(false);
+            setButtons[1].SetActive(true);
         }
+        if (PlayerPrefs.HasKey("Buy3"))
+        {
+            buyButtons[2].SetActive(false);
+            setButtons[2].SetActive(true);
+        }
+        if (PlayerPrefs.HasKey("Buy4"))
+        {
+            buyButtons[3].SetActive(false);
+            setButtons[3].SetActive(true);
+        }
+        //cars[PlayerPrefs.GetInt("Car") - 1].SetActive(true);
     }
     private void Update()
     {
