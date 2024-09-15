@@ -6,6 +6,7 @@ TagManager:
   tags:
   - EffectSound
   - audio
+  - rcccanvas
   layers:
   - Default
   - TransparentFX

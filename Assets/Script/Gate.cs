@@ -6,15 +6,17 @@ public class Gate : MonoBehaviour
 {
     private LevelManager levelManager;
     [SerializeField] private GameObject effect;
+    private bool isActive;
     public void InitGate(LevelManager manager)
     {
         levelManager = manager;
     }
     public void OnTriggerEnter(Collider other)
     {
-        if (other.tag=="Player")
+        if (other.tag=="Player" && !isActive)
         {
-            Debug.Log("Gate Reached");
+            isActive = true;
+            //Debug.Log("Gate Reached");
             //effect.SetActive(true);
             transform.DOScale(0.1f, 0.3f).OnComplete(DisableGate);
             GameObject.FindGameObjectWithTag("EffectSound").GetComponent<AudioSource>().Play();

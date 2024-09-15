@@ -12,6 +12,7 @@ public class UIManager : MonoBehaviour
     public TMP_Text timeBar;
     [SerializeField] public LevelManager[] levelManagers;
     [SerializeField] private GameObject[] roads;
+    [SerializeField] private TMP_Text winTime;
     public bool isWin;
     private GameManager gameManager;
     private LevelManager currentLevel;
@@ -59,6 +60,10 @@ public class UIManager : MonoBehaviour
         currentLevel=Instantiate(levelManagers[level]);
         roads[levelManagers[level].levelNum-1].SetActive(true);
         currentLevel.levelNum = level;
+    }
+    public void ShowWinTime(string t)
+    {
+        winTime.text= t;
     }
     public void ShowMoney()
     {
@@ -124,7 +129,27 @@ public class UIManager : MonoBehaviour
     public void NextButton()
     {
         isWin = false;
-        uiPanels[2].SetActive(false);        
+        uiPanels[2].SetActive(false);
+        foreach (GameObject ob in roads)
+        {
+            if (ob.activeSelf == true)
+            {
+                ob.SetActive(false);
+            }
+        }
+        try
+        {
+            GameObject rcc = GameObject.FindGameObjectWithTag("rcccanvas");
+            rcc.SetActive(false);
+        }
+        catch
+        {
+
+        }
+    }
+    public void RestartButton()
+    {
+
     }
     public void CloseApp()
     {
