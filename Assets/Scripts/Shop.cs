@@ -14,6 +14,7 @@ public class Shop : MonoBehaviour
     public int cost2;
     public int cost3;
     public int cost4;
+    public GameObject notEnough;
     private void Awake()
     {
         if (!PlayerPrefs.HasKey("Buy1"))
@@ -69,7 +70,10 @@ public class Shop : MonoBehaviour
                         PlayerPrefs.SetInt("Buy1", 1);
                     }
                     else
+                    {
+                        notEnough.SetActive(true);
                         return;
+                    }
                 }
                 break;
             case 1:
@@ -80,7 +84,10 @@ public class Shop : MonoBehaviour
                         PlayerPrefs.SetInt("Buy2", 1);
                     }
                     else
+                    {
+                        notEnough.SetActive(true);
                         return;
+                    }
                 }
                 break;
             case 2:
@@ -91,7 +98,10 @@ public class Shop : MonoBehaviour
                         PlayerPrefs.SetInt("Buy3", 1);
                     }
                     else
+                    {
+                        notEnough.SetActive(true);
                         return;
+                    }
                 }
                 break;
         }
